@@ -12501,7 +12501,7 @@ Model saved
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Model-Evaluation-on-the-Test-Set">Model Evaluation on the Test Set<a class="anchor-link" href="#Model-Evaluation-on-the-Test-Set">&#182;</a></h3><p>Once you are completely satisfied with your model, evaluate the performance of the model on the test set.</p>
+<h3 id="Model-Evaluation-on-Every-Set">Model Evaluation on Every Set<a class="anchor-link" href="#Model-Evaluation-on-Every-Set">&#182;</a></h3><p>Once you are completely satisfied with your model, evaluate the performance of the model on the test set.</p>
 <p>Be sure to only do this once!</p>
 <p>If you were to measure the performance of your trained model on the test set, then improve your model, and then measure the performance of your model on the test set again, that would invalidate your test results. You wouldn't get a true measure of how well your model would perform against real data.</p>
 <p>You do not need to modify this section.</p>
@@ -12511,10 +12511,23 @@ Model saved
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">saver</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Saver</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+    <span class="n">saver</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">sess</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">latest_checkpoint</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span>
+    <span class="n">train_accuracy</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Train Accuracy = </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">train_accuracy</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+    <span class="n">saver</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">sess</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">latest_checkpoint</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span>
+
+    <span class="n">valid_accuracy</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">X_valid</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Validation Accuracy = </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">valid_accuracy</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
     <span class="n">saver</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">sess</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">latest_checkpoint</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span>
 
     <span class="n">test_accuracy</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
@@ -12536,6 +12549,10 @@ Model saved
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>INFO:tensorflow:Restoring parameters from ./lenet
+Train Accuracy = 0.993
+INFO:tensorflow:Restoring parameters from ./lenet
+Validation Accuracy = 0.951
+INFO:tensorflow:Restoring parameters from ./lenet
 Test Accuracy = 0.938
 </pre>
 </div>
@@ -12667,14 +12684,14 @@ Loading image: web_sample/sample_id_11.png
 Collected Data: (9, 32, 32, 3)
 Restoring normalized feature
 Displaying sample data from train set:
- - index in set: 5
- - label id: 35
- - label name: Ahead only
+ - index in set: 2
+ - label id: 17
+ - label name: No entry
  - sample shape:  (32, 32, 3)
- - min pixel: 0
- - max pixel: 204
- - maybe normalized min pixel: -1.0
- - maybe normalized max pixel: 0.59375
+ - min pixel: 51
+ - max pixel: 255
+ - maybe normalized min pixel: -0.601562
+ - maybe normalized max pixel: 0.992188
 </pre>
 </div>
 </div>
@@ -12687,7 +12704,7 @@ Displaying sample data from train set:
 
 
 <div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
+<img src="data:image/png;base64,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
 "
 >
 </div>
@@ -12758,16 +12775,36 @@ Web Test Accuracy = 1.000
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">check_top_5_operation</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">top_k</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">check_top_5_operation</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">top_k</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">check_web_results</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">):</span>
     <span class="n">sess</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_default_session</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">check_top_5_operation</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">X_data</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">keep_prob</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">})</span>    
 
+<span class="k">def</span> <span class="nf">display_softmax</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;| </span><span class="si">{:0.2f}</span><span class="s2"> | </span><span class="si">{:50s}</span><span class="s2"> |&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span><span class="n">signnames</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">)]))</span>
+        
+<span class="k">def</span> <span class="nf">display_results</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">y_labels</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Top 5 Softmax Probabilities for each example.&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">values</span><span class="p">)):</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">y_labels</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">signnames</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">)]</span>
+        <span class="n">top_prob</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">top_labels</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#</span><span class="si">{}</span><span class="s2"> ID=</span><span class="si">{}</span><span class="s2">, Label=&#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;| prob | Prediction                                         |&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;|:----:|:--------------------------------------------------:|&quot;</span><span class="p">)</span>
+        <span class="n">display_softmax</span><span class="p">(</span><span class="n">top_prob</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">top_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">display_softmax</span><span class="p">(</span><span class="n">top_prob</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">top_labels</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">display_softmax</span><span class="p">(</span><span class="n">top_prob</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">top_labels</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">display_softmax</span><span class="p">(</span><span class="n">top_prob</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">top_labels</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">display_softmax</span><span class="p">(</span><span class="n">top_prob</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">top_labels</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
 <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
     <span class="n">saver</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">sess</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">latest_checkpoint</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span>   
-    <span class="n">results</span> <span class="o">=</span> <span class="n">check_web_results</span><span class="p">(</span><span class="n">X_web</span><span class="p">,</span> <span class="n">y_web</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+    <span class="n">web_results</span> <span class="o">=</span> <span class="n">check_web_results</span><span class="p">(</span><span class="n">X_web</span><span class="p">,</span> <span class="n">y_web</span><span class="p">)</span>       
+    <span class="n">display_results</span><span class="p">(</span><span class="n">web_results</span><span class="p">,</span> <span class="n">y_web</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12785,23 +12822,88 @@ Web Test Accuracy = 1.000
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>INFO:tensorflow:Restoring parameters from ./lenet
-TopKV2(values=array([[ 34. ,   1.9,  -0.6,  -1. ,  -2.1],
-       [ 31.6,   6.8,   2.3,  -5. ,  -5.2],
-       [ 23.8,   5.2,  -1.2,  -1.3,  -1.4],
-       [ 57.1,  32.9,  11.2,   6.7,   5.1],
-       [ 38.9,   8.9,   7.1,   5.8,   1.8],
-       [ 49. ,  15.2,  12.7,   0.8,  -4.3],
-       [ 58.2,  29.4,  11.6,  -4.8,  -6.2],
-       [ 23.2,  14.8,  13.8,   3.8,  -2.3],
-       [ 38. ,  23. ,  14.9,  11.3,   3.9]], dtype=float32), indices=array([[12, 10, 26, 17, 11],
-       [14, 29, 17, 15,  1],
-       [17, 14, 26, 10, 12],
-       [18, 26, 27,  4, 22],
-       [25, 29, 22, 24, 20],
-       [35, 33, 34, 12,  3],
-       [38, 34, 36, 25, 32],
-       [ 7,  5,  8,  1, 31],
-       [11, 30, 28, 21, 27]], dtype=int32))
+Top 5 Softmax Probabilities for each example.
+#0 ID=12, Label=&#39;Priority road&#39;
+| prob | Prediction                                         |
+|:----:|:--------------------------------------------------:|
+| 1.00 | Priority road                                      |
+| 0.00 | No passing for vehicles over 3.5 metric tons       |
+| 0.00 | Traffic signals                                    |
+| 0.00 | No entry                                           |
+| 0.00 | Right-of-way at the next intersection              |
+
+#1 ID=14, Label=&#39;Stop&#39;
+| prob | Prediction                                         |
+|:----:|:--------------------------------------------------:|
+| 1.00 | Stop                                               |
+| 0.00 | Bicycles crossing                                  |
+| 0.00 | No entry                                           |
+| 0.00 | No vehicles                                        |
+| 0.00 | Speed limit (30km/h)                               |
+
+#2 ID=17, Label=&#39;No entry&#39;
+| prob | Prediction                                         |
+|:----:|:--------------------------------------------------:|
+| 1.00 | No entry                                           |
+| 0.00 | Stop                                               |
+| 0.00 | Traffic signals                                    |
+| 0.00 | No passing for vehicles over 3.5 metric tons       |
+| 0.00 | Priority road                                      |
+
+#3 ID=18, Label=&#39;General caution&#39;
+| prob | Prediction                                         |
+|:----:|:--------------------------------------------------:|
+| 1.00 | General caution                                    |
+| 0.00 | Traffic signals                                    |
+| 0.00 | Pedestrians                                        |
+| 0.00 | Speed limit (70km/h)                               |
+| 0.00 | Bumpy road                                         |
+
+#4 ID=25, Label=&#39;Road work&#39;
+| prob | Prediction                                         |
+|:----:|:--------------------------------------------------:|
+| 1.00 | Road work                                          |
+| 0.00 | Bicycles crossing                                  |
+| 0.00 | Bumpy road                                         |
+| 0.00 | Road narrows on the right                          |
+| 0.00 | Dangerous curve to the right                       |
+
+#5 ID=35, Label=&#39;Ahead only&#39;
+| prob | Prediction                                         |
+|:----:|:--------------------------------------------------:|
+| 1.00 | Ahead only                                         |
+| 0.00 | Turn right ahead                                   |
+| 0.00 | Turn left ahead                                    |
+| 0.00 | Priority road                                      |
+| 0.00 | Speed limit (60km/h)                               |
+
+#6 ID=38, Label=&#39;Keep right&#39;
+| prob | Prediction                                         |
+|:----:|:--------------------------------------------------:|
+| 1.00 | Keep right                                         |
+| 0.00 | Turn left ahead                                    |
+| 0.00 | Go straight or right                               |
+| 0.00 | Road work                                          |
+| 0.00 | End of all speed and passing limits                |
+
+#7 ID=7, Label=&#39;Speed limit (100km/h)&#39;
+| prob | Prediction                                         |
+|:----:|:--------------------------------------------------:|
+| 1.00 | Speed limit (100km/h)                              |
+| 0.00 | Speed limit (80km/h)                               |
+| 0.00 | Speed limit (120km/h)                              |
+| 0.00 | Speed limit (30km/h)                               |
+| 0.00 | Wild animals crossing                              |
+
+#8 ID=11, Label=&#39;Right-of-way at the next intersection&#39;
+| prob | Prediction                                         |
+|:----:|:--------------------------------------------------:|
+| 1.00 | Right-of-way at the next intersection              |
+| 0.00 | Beware of ice/snow                                 |
+| 0.00 | Children crossing                                  |
+| 0.00 | Double curve                                       |
+| 0.00 | Pedestrians                                        |
+
 </pre>
 </div>
 </div>
