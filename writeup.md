@@ -12,18 +12,6 @@ The goals / steps of this project are the following:
 * Analyze the softmax probabilities of the new images
 * Summarize the results with a written report
 
-[//]: # (Image References)
-
-[image1]: ./examples/visualization.jpg "Visualization"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
-
-
 ## Files Submitted
 
 * Writeup: You are reading it!.
@@ -125,11 +113,11 @@ My final model results were:
 
 Here are five German traffic signs that I found on the web. The images were adjusted, to encode pixels as uint8 and to match the 32x32x3 shape of the dataset examples.
 
-![alt text][./web_sample/sample_id7.png]
-![alt text][./web_sample/sample_id12.png]
-![alt text][./web_sample/sample_id17.png]
-![alt text][./web_sample/sample_id18.png]
-![alt text][./web_sample/sample_id38.png]
+![alt text][web_sample/sample_id7.png]
+![alt text][web_sample/sample_id12.png]
+![alt text][web_sample/sample_id17.png]
+![alt text][web_sample/sample_id18.png]
+![alt text][web_sample/sample_id38.png]
 
 The second image might be challenging for the classifier, as some orange borders are removed and there is a bright patch on the left side.
 
