@@ -113,11 +113,11 @@ My final model results were:
 
 Here are five German traffic signs that I found on the web. The images were adjusted, to encode pixels as uint8 and to match the 32x32x3 shape of the dataset examples.
 
-![alt text][web_sample/sample_id7.png]
-![alt text][web_sample/sample_id12.png]
-![alt text][web_sample/sample_id17.png]
-![alt text][web_sample/sample_id18.png]
-![alt text][web_sample/sample_id38.png]
+![alt text](web_sample/sample_id7.png)
+![alt text](web_sample/sample_id12.png)
+![alt text](web_sample/sample_id17.png)
+![alt text](web_sample/sample_id18.png)
+![alt text](web_sample/sample_id38.png)
 
 The second image might be challenging for the classifier, as some orange borders are removed and there is a bright patch on the left side.
 
